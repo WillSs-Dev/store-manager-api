@@ -15,4 +15,8 @@ const fetchById = async (id, res) => {
   res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
 };
 
-module.exports = { fetchAll, fetchById };
+const insert = async (name, res) => {
+  
+};
+
+module.exports = { fetchAll, fetchById, insert };
