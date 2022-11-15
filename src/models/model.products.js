@@ -1,8 +1,13 @@
-const db = require('../connection');
+const db = require('./connection');
 
-const getProducts = async () => {
-  const [result] = await db.execute('SELECT * FROM StoreManager.products');
+const getAll = async () => {
+  const [result] = await db.query('SELECT * FROM StoreManager.products');
   return result;
 };
 
-module.exports = { getProducts };
+const getById = async (id) => {
+  const [[result]] = await db.query('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
+  return result;
+};
+
+module.exports = { getAll, getById };

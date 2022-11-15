@@ -1,6 +1,6 @@
 const express = require('express');
 // const { validateProduct } = require('./middlewares/requestValidation');
-const { requestProducts } = require('./services/service.products');
+const productsController = require('./controllers/controller.products');
 
 const app = express();
 
@@ -9,11 +9,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/products', (__req, res) => requestProducts(res));
+app.get('/products', (__req, res) => productsController.fetchAll(res));
 
-app.get('/products/:id', (__req, res) => {
-  res.status(200).json({ i: 'nice one' });
-});
+app.get('/products/:id', ({ params: { id } }, res) => productsController.fetchById(id, res));
 
 // app.post('/products', validateProduct, (req, res) => {
 //   res.status(OK_STATUS).json({ message: 'nice request!' });

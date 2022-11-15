@@ -1,9 +1,19 @@
-const { getProducts } = require('../models/model.products');
+const productsModel = require('../models/model.products');
 
-const OK_STATUS = 200;
+const OK = 1;
+const ERROR = 0;
 
-const requestProducts = async (res) => {
-  res.status(OK_STATUS).json(await getProducts());
+const requestAll = async () => {
+  const result = await productsModel.getAll();
+  return result;
 };
 
-module.exports = { requestProducts };
+const requestById = async (id) => {
+  const product = await productsModel.getById(id);
+  if (product) {
+    return { type: OK, data: product };
+  }
+  return { type: ERROR };
+};
+
+module.exports = { requestAll, requestById };
