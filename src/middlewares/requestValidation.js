@@ -8,7 +8,7 @@ const validateProduct = ({ body: { name } }, res, next) => {
   if (name.length < 5) {
     return res
       .status(UNPROCESSABLE_ENTITY)
-      .json({ message: '"name" length myst be at least 5 characters long' });
+      .json({ message: '"name" length must be at least 5 characters long' });
   }
   next();
 };

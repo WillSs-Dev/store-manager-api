@@ -16,4 +16,9 @@ const requestById = async (id) => {
   return { type: ERROR };
 };
 
-module.exports = { requestAll, requestById };
+const create = async (name) => {
+  const newProduct = await productsModel.add(name);
+  return newProduct;
+};
+
+module.exports = { requestAll, requestById, create };

@@ -10,4 +10,11 @@ const getById = async (id) => {
   return result;
 };
 
-module.exports = { getAll, getById };
+const add = async (name) => {
+  await db.query('INSERT INTO StoreManager.products (name) VALUES (?)', [name]);
+  const [[newProduct]] = await db
+    .query('SELECT * FROM StoreManager.products WHERE name = ?', [name]);
+  return newProduct;
+};
+
+module.exports = { getAll, getById, add };

@@ -1,6 +1,7 @@
 const productsService = require('../services/service.products');
 
 const OK_STATUS = 200;
+const CREATED_STATUS = 201;
 const NOT_FOUND_STATUS = 404;
 
 const fetchAll = async (res) => {
@@ -16,7 +17,7 @@ const fetchById = async (id, res) => {
 };
 
 const insert = async (name, res) => {
-  
+  res.status(CREATED_STATUS).json(await productsService.create(name));
 };
 
 module.exports = { fetchAll, fetchById, insert };
