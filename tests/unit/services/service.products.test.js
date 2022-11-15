@@ -24,4 +24,11 @@ describe('Testes de unidade da service de produtos', function () {
 
     expect(result).to.deep.equal({ type: OK, data: allProducts[1] });
   });
+  it('Buscando um produto que não existe no banco de dados', async function () {
+    sinon.stub(productsModel, 'getById').resolves(undefined);
+
+    const result = await productsService.requestById(80);
+
+    expect(result).to.deep.equal({ type: ERROR });
+  });
 });
