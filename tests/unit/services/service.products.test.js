@@ -1,9 +1,8 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const db = require('../../../src/models/connection');
 const productsModel = require('../../../src/models/model.products');
 const productsService = require('../../../src/services/service.products');
-const { allProducts, notFoundMsg } = require('./service.products.mock');
+const { allProducts } = require('./service.products.mock');
 
 const OK = 1;
 const ERROR = 0;

@@ -4,4 +4,6 @@ const allProducts = [
   {id:3,name:'Escudo do Capitão América'},
 ];
 
-module.exports = { allProducts };
+const notFoundMsg = { message: 'Product not found' };
+
+module.exports = { allProducts, notFoundMsg };
