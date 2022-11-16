@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const db = require('../../../src/models/connection');
 const productsModel = require('../../../src/models/model.products');
-const { allProducts } = require('./model.products.mock');
+const { allProducts, newProduct } = require('./model.products.mock');
 
 describe('Testes de unidade do model de produtos', function () {
   afterEach(sinon.restore);
@@ -19,5 +19,12 @@ describe('Testes de unidade do model de produtos', function () {
     const result = await productsModel.getById(2);
 
     expect(result).to.be.equal(allProducts[1]);
+  });
+  it('Adicionando um produto no banco de dados', async function () {
+    sinon.stub(db, 'query').onFirstCall().resolves().onSecondCall().resolves([[newProduct]]);
+
+    const result = await productsModel.add('Garras do Wolverine');
+
+    expect(result).to.deep.equal(newProduct);
   });
 });

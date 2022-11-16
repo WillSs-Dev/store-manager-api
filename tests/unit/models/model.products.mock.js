@@ -4,4 +4,6 @@ const allProducts = [
   {id:3,name:'Escudo do Capitão América'},
 ];
 
-module.exports = { allProducts };
+const newProduct = {id:4,name:'Garras do Wolverine'}
+
+module.exports = { allProducts, newProduct };

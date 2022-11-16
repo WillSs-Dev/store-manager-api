@@ -6,4 +6,6 @@ const allProducts = [
 
 const notFoundMsg = { message: 'Product not found' };
 
-module.exports = { allProducts, notFoundMsg };
+const newProduct = {id:4,name:'Garras do Wolverine'}
+
+module.exports = { allProducts, notFoundMsg, newProduct };

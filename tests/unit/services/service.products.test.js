@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const productsModel = require('../../../src/models/model.products');
 const productsService = require('../../../src/services/service.products');
-const { allProducts } = require('./service.products.mock');
+const { allProducts, newProduct } = require('./service.products.mock');
 
 const OK = 1;
 const ERROR = 0;
@@ -29,5 +29,12 @@ describe('Testes de unidade da service de produtos', function () {
     const result = await productsService.requestById(80);
 
     expect(result).to.deep.equal({ type: ERROR });
+  });
+  it('Adicionando um produto no banco de dados', async function () {
+    sinon.stub(productsModel, 'add').resolves(newProduct);
+
+    const result = await productsService.create('Garras do Wolverine');
+
+    expect(result).to.deep.equal(newProduct);
   });
 });
