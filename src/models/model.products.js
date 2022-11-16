@@ -5,6 +5,11 @@ const getAll = async () => {
   return result;
 };
 
+const getAllProductIds = async () => {
+  const [result] = await db.query('SELECT id FROM StoreManager.products');
+  return result;
+};
+
 const getById = async (id) => {
   const [[result]] = await db.query('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
   return result;
@@ -17,4 +22,4 @@ const add = async (name) => {
   return newProduct;
 };
 
-module.exports = { getAll, getById, add };
+module.exports = { getAll, getById, add, getAllProductIds };
