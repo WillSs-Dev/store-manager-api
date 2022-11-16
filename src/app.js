@@ -20,6 +20,12 @@ app.get('/products/:id', ({ params: { id } }, res) =>
 app.post('/products', validateProduct, ({ body: { name } }, res) =>
   productsController.insert(name, res));
 
+app.get('/sales', (__req, res) => 
+  salesController.fetchAll(res));
+
+app.get('/sales/:id', ({ params: { id } }, res) =>
+  salesController.fetchById(id, res));
+
 app.post('/sales', validateSale, ({ body }, res) =>
   salesController.insert(body, res));
 

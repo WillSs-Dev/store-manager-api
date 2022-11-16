@@ -5,6 +5,19 @@ const salesProductsModel = require('../models/model.sales_products');
 const OK = 1;
 const ERROR = 0;
 
+const requestAll = async () => {
+  const result = await salesModel.getAll();
+  return result;
+};
+
+const requestById = async (id) => {
+  const product = await salesModel.getById(id);
+  if (product.length) {
+    return { type: OK, data: product };
+  }
+  return { type: ERROR };
+};
+
 const create = async (body) => {
   const products = await productsModel.getAllProductIds();
   const productsId = [];
@@ -23,4 +36,4 @@ const create = async (body) => {
   return { type: ERROR };
 };
 
-module.exports = { create };
+module.exports = { requestAll, requestById, create };
