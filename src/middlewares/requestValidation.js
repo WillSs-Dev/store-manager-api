@@ -8,15 +8,15 @@ const productSchema = joi.object({
 });
 
 const validateProduct = ({ body }, res, next) => {
-  const {
-    error: { details },
-  } = productSchema.validate(body);
-  const { message, type } = details[0];
-  if (type === 'any.required') {
-    return res.status(BAD_REQUEST).json({ message });
-  }
-  if (type === 'string.min') {
-    return res.status(UNPROCESSABLE_ENTITY).json({ message });
+  const { error } = productSchema.validate(body);
+  if (error) {
+    const { message, type } = error.details[0];
+    if (type === 'any.required') {
+      return res.status(BAD_REQUEST).json({ message });
+    }
+    if (type === 'string.min') {
+      return res.status(UNPROCESSABLE_ENTITY).json({ message });
+    }
   }
   next();
 };
