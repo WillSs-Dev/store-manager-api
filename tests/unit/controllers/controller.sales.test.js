@@ -13,10 +13,8 @@ const app = require('../../../src/app');
 const OK_STATUS = 200;
 const CREATED_STATUS = 201;
 const NOT_FOUND_STATUS = 404;
-const BAD_REQUEST = 400;
-const UNPROCESSABLE_ENTITY = 422;
 
-describe('Testes de unidade de service de vendas', function () {
+describe('Testes de unidade do controller de vendas', function () {
   afterEach(sinon.restore);
   it('Buscando todas as vendas do banco de dados', async function () {
     sinon.stub(salesService, 'requestAll').resolves(allSales);
