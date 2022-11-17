@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 chai.use(chaiHttp);
 
-const productsModel = require('../../../src/models/model.products');
+const productsService = require('../../../src/services/service.products');
 const { allProducts, notFoundMsg, newProduct } = require('./controller.products.mock');
 const app = require('../../../src/app');
 
@@ -19,7 +19,7 @@ const UNPROCESSABLE_ENTITY = 422;
 describe('Testes de unidade do controller de produtos', function () {
   afterEach(sinon.restore);
   it('Buscando todos os produtos do banco de dados', async function () {
-    sinon.stub(productsModel, 'getAll').resolves(allProducts);
+    sinon.stub(productsService, 'requestAll').resolves(allProducts);
 
     const res = await chai.request(app).get('/products');
 
@@ -27,15 +27,15 @@ describe('Testes de unidade do controller de produtos', function () {
     expect(res.body).to.deep.equal(allProducts);
   });
   it('Buscando um produto específico do banco de dados', async function () {
-    sinon.stub(productsModel, 'getById').resolves(allProducts[1]);
+    sinon.stub(productsService, 'requestById').resolves({ type: 1, data: allProducts[1] });
 
     const res = await chai.request(app).get('/products/2');
 
     expect(res.status).to.be.equal(OK_STATUS);
     expect(res.body).to.deep.equal(allProducts[1]);
   });
-  it('Buscando um produto específico do banco de dados', async function () {
-    sinon.stub(productsModel, 'getById').resolves(undefined);
+  it('Buscando um produto que não existe do banco de dados', async function () {
+    sinon.stub(productsService, 'requestById').resolves({ type: 0 });
 
     const res = await chai.request(app).get('/products/80');
 
@@ -43,7 +43,7 @@ describe('Testes de unidade do controller de produtos', function () {
     expect(res.body).to.deep.equal(notFoundMsg);
   });
   it('Adicionando um produto no banco de dados', async function () {
-    sinon.stub(productsModel, 'add').resolves(newProduct);
+    sinon.stub(productsService, 'create').resolves(newProduct);
 
     const res = await chai.request(app).post('/products').send({ name: 'Garras do Wolverine' });
 
