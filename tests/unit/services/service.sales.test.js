@@ -8,16 +8,8 @@ chai.use(chaiHttp);
 
 const salesModel = require('../../../src/models/model.sales');
 const salesService = require('../../../src/services/service.sales');
-const productsModel = require('../../../src/models/model.products');
 const { allSales, newSale, saleRequestBody, sale1, productsIds, salesIds } = require('./service.sales.mock');
-const app = require('../../../src/app');
 const db = require('../../../src/models/connection');
-
-const OK_STATUS = 200;
-const CREATED_STATUS = 201;
-const NOT_FOUND_STATUS = 404;
-const BAD_REQUEST = 400;
-const UNPROCESSABLE_ENTITY = 422;
 
 describe('Testes de unidade da service de vendas', function () {
   afterEach(sinon.restore);
