@@ -25,6 +25,8 @@ app.post('/products', validateProduct, ({ body: { name } }, res) =>
 app.put('/products/:id', validateProduct, ({ params: { id }, body: { name } }, res) =>
   productsController.update(id, name, res));
 
+app.delete('/products/:id', ({ params: { id } }, res) => productsController.remove(id, res));
+
 app.get('/sales', (__req, res) => salesController.fetchAll(res));
 
 app.get('/sales/:id', ({ params: { id } }, res) =>

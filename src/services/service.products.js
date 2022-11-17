@@ -30,4 +30,13 @@ const requestChangeById = async (id, name) => {
   return { type: ERROR };
 };
 
-module.exports = { requestAll, requestById, create, requestChangeById };
+const requestDeleteById = async (id) => {
+  const product = await productsModel.getById(id);
+  if (product) {
+    await productsModel.deleteById(id);
+    return { type: OK };
+  }
+  return { type: ERROR };
+};
+
+module.exports = { requestAll, requestById, create, requestChangeById, requestDeleteById };

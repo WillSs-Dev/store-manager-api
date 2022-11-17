@@ -2,6 +2,7 @@ const productsService = require('../services/service.products');
 
 const OK_STATUS = 200;
 const CREATED_STATUS = 201;
+const NO_CONTENT_STATUS = 204;
 const NOT_FOUND_STATUS = 404;
 
 const fetchAll = async (res) => {
@@ -28,4 +29,12 @@ const update = async (id, name, res) => {
   res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
 };
 
-module.exports = { fetchAll, fetchById, insert, update };
+const remove = async (id, res) => {
+  const { type } = await productsService.requestDeleteById(id);
+  if (type) {
+    return res.status(NO_CONTENT_STATUS).json();
+  }
+  res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
+};
+
+module.exports = { fetchAll, fetchById, insert, update, remove };

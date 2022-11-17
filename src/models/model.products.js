@@ -28,5 +28,8 @@ const changeById = async (id, name) => {
     .query('SELECT * FROM StoreManager.products WHERE name = ?', [name]);
   return newProduct;
 };
+const deleteById = async (id) => {
+  await db.query('DELETE FROM StoreManager.products WHERE id = ?', [id]);
+};
 
-module.exports = { getAll, getById, add, getAllProductIds, changeById };
+module.exports = { getAll, getById, add, getAllProductIds, changeById, deleteById };
