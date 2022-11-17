@@ -21,4 +21,13 @@ const create = async (name) => {
   return newProduct;
 };
 
-module.exports = { requestAll, requestById, create };
+const requestChangeById = async (id, name) => {
+  const product = await productsModel.getById(id);
+  if (product) {
+    const updatedProduct = await productsModel.changeById(id, name);
+    return { type: OK, data: updatedProduct };
+  }
+  return { type: ERROR };
+};
+
+module.exports = { requestAll, requestById, create, requestChangeById };

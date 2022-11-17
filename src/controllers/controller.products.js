@@ -20,4 +20,12 @@ const insert = async (name, res) => {
   res.status(CREATED_STATUS).json(await productsService.create(name));
 };
 
-module.exports = { fetchAll, fetchById, insert };
+const update = async (id, name, res) => {
+  const { type, data } = await productsService.requestChangeById(id, name);
+  if (type) {
+    return res.status(OK_STATUS).json(data);
+  }
+  res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
+};
+
+module.exports = { fetchAll, fetchById, insert, update };

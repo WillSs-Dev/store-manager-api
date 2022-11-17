@@ -22,4 +22,11 @@ const add = async (name) => {
   return newProduct;
 };
 
-module.exports = { getAll, getById, add, getAllProductIds };
+const changeById = async (id, name) => {
+  await db.query('UPDATE StoreManager.products SET name = ? WHERE id = ?', [name, id]);
+  const [[newProduct]] = await db
+    .query('SELECT * FROM StoreManager.products WHERE name = ?', [name]);
+  return newProduct;
+};
+
+module.exports = { getAll, getById, add, getAllProductIds, changeById };

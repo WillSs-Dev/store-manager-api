@@ -1,5 +1,8 @@
 const express = require('express');
-const { validateProduct, validateSale } = require('./middlewares/requestValidation');
+const {
+  validateProduct,
+  validateSale,
+} = require('./middlewares/requestValidation');
 const productsController = require('./controllers/controller.products');
 const salesController = require('./controllers/controller.sales');
 
@@ -11,8 +14,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/products', (__req, res) =>
-  productsController.fetchAll(res));
+app.get('/products', (__req, res) => productsController.fetchAll(res));
 
 app.get('/products/:id', ({ params: { id } }, res) =>
   productsController.fetchById(id, res));
@@ -20,8 +22,10 @@ app.get('/products/:id', ({ params: { id } }, res) =>
 app.post('/products', validateProduct, ({ body: { name } }, res) =>
   productsController.insert(name, res));
 
-app.get('/sales', (__req, res) => 
-  salesController.fetchAll(res));
+app.put('/products/:id', validateProduct, ({ params: { id }, body: { name } }, res) =>
+  productsController.update(id, name, res));
+
+app.get('/sales', (__req, res) => salesController.fetchAll(res));
 
 app.get('/sales/:id', ({ params: { id } }, res) =>
   salesController.fetchById(id, res));
