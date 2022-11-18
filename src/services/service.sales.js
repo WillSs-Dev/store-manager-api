@@ -36,4 +36,13 @@ const create = async (body) => {
   return { type: ERROR };
 };
 
-module.exports = { requestAll, requestById, create };
+const requestDeleteById = async (id) => {
+  const product = await salesModel.getById(id);
+  if (product) {
+    await salesModel.deleteById(id);
+    return { type: OK };
+  }
+  return { type: ERROR };
+};
+
+module.exports = { requestAll, requestById, create, requestDeleteById };

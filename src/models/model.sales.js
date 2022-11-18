@@ -33,4 +33,8 @@ const add = async (id) => {
   await db.query('INSERT INTO StoreManager.sales (id) VALUES (?)', [id]);
 };
 
-module.exports = { getAll, getById, getAllSalesId, add };
+const deleteById = async (id) => {
+  await db.query('DELETE FROM StoreManager.sales WHERE id = ?', [id]);
+};
+
+module.exports = { getAll, getById, getAllSalesId, add, deleteById };
