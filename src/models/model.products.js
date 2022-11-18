@@ -1,4 +1,3 @@
-const { query } = require('./connection');
 const db = require('./connection');
 
 const getAll = async () => {

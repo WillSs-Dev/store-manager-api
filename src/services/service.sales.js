@@ -38,7 +38,7 @@ const create = async (body) => {
 
 const requestDeleteById = async (id) => {
   const product = await salesModel.getById(id);
-  if (product) {
+  if (product.length) {
     await salesModel.deleteById(id);
     return { type: OK };
   }

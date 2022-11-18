@@ -27,6 +27,7 @@ const insert = async (body, res) => {
 
 const remove = async (id, res) => {
   const { type, data } = await salesService.requestDeleteById(id);
+  // console.log(type);
   if (type) {
     return res.status(NO_CONTENT_STATUS).json(data);
   }
