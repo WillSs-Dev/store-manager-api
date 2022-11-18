@@ -1,3 +1,4 @@
+const { query } = require('./connection');
 const db = require('./connection');
 
 const getAll = async () => {
@@ -10,26 +11,52 @@ const getAllProductIds = async () => {
   return result;
 };
 
+const getByQuery = async (searchQuery) => {
+  const [result] = await db.query(
+    'SELECT * FROM StoreManager.products WHERE name LIKE ?',
+    [searchQuery],
+  );
+  return result;
+};
+
 const getById = async (id) => {
-  const [[result]] = await db.query('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
+  const [[result]] = await db.query(
+    'SELECT * FROM StoreManager.products WHERE id = ?',
+    [id],
+  );
   return result;
 };
 
 const add = async (name) => {
   await db.query('INSERT INTO StoreManager.products (name) VALUES (?)', [name]);
-  const [[newProduct]] = await db
-    .query('SELECT * FROM StoreManager.products WHERE name = ?', [name]);
+  const [[newProduct]] = await db.query(
+    'SELECT * FROM StoreManager.products WHERE name = ?',
+    [name],
+  );
   return newProduct;
 };
 
 const changeById = async (id, name) => {
-  await db.query('UPDATE StoreManager.products SET name = ? WHERE id = ?', [name, id]);
-  const [[newProduct]] = await db
-    .query('SELECT * FROM StoreManager.products WHERE name = ?', [name]);
+  await db.query('UPDATE StoreManager.products SET name = ? WHERE id = ?', [
+    name,
+    id,
+  ]);
+  const [[newProduct]] = await db.query(
+    'SELECT * FROM StoreManager.products WHERE name = ?',
+    [name],
+  );
   return newProduct;
 };
 const deleteById = async (id) => {
   await db.query('DELETE FROM StoreManager.products WHERE id = ?', [id]);
 };
 
-module.exports = { getAll, getById, add, getAllProductIds, changeById, deleteById };
+module.exports = {
+  getAll,
+  getByQuery,
+  getById,
+  add,
+  getAllProductIds,
+  changeById,
+  deleteById,
+};

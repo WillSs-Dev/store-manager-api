@@ -16,6 +16,9 @@ app.get('/', (_request, response) => {
 
 app.get('/products', (__req, res) => productsController.fetchAll(res));
 
+app.get('/products/search', ({ query: { q } }, res) => 
+  productsController.fetchByQuery(q, res));
+
 app.get('/products/:id', ({ params: { id } }, res) =>
   productsController.fetchById(id, res));
 

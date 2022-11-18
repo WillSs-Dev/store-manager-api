@@ -17,6 +17,14 @@ const fetchById = async (id, res) => {
   res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
 };
 
+const fetchByQuery = async (query, res) => {
+  const { type, data } = await productsService.requestByQuery(query);
+  if (type) {
+    return res.status(OK_STATUS).json(data);
+  }
+  res.status(NOT_FOUND_STATUS).json([]);
+};
+
 const insert = async (name, res) => {
   res.status(CREATED_STATUS).json(await productsService.create(name));
 };
@@ -37,4 +45,4 @@ const remove = async (id, res) => {
   res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
 };
 
-module.exports = { fetchAll, fetchById, insert, update, remove };
+module.exports = { fetchAll, fetchByQuery, fetchById, insert, update, remove };
