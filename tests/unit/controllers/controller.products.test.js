@@ -7,7 +7,7 @@ chai.use(sinonChai);
 chai.use(chaiHttp);
 
 const productsService = require('../../../src/services/service.products');
-const { allProducts, notFoundMsg, newProduct } = require('./controller.products.mock');
+const { allProducts, notFoundMsg, newProduct, searchedProducts } = require('./controller.products.mock');
 const app = require('../../../src/app');
 
 const OK_STATUS = 200;
@@ -61,5 +61,29 @@ describe('Testes de unidade do controller de produtos', function () {
 
     expect(res.status).to.be.equal(UNPROCESSABLE_ENTITY);
     expect(res.body).to.deep.equal({ message: '"name" length must be at least 5 characters long' });
+  });
+  it('Buscando um produto por query de busca', async function () {
+    sinon.stub(productsService, 'requestByQuery').resolves({ type: 1, data: searchedProducts });
+
+    const res = await chai.request(app).get('/products/search?q=de')
+
+    expect(res.status).to.be.equal(OK_STATUS);
+    expect(res.body).to.deep.equal(searchedProducts);
+  });
+  it('Buscando um produto com a query de busca vazia', async function () {
+    sinon.stub(productsService, 'requestByQuery').resolves({ type: 1, data: allProducts });
+
+    const res = await chai.request(app).get('/products/search?q=de')
+
+    expect(res.status).to.be.equal(OK_STATUS);
+    expect(res.body).to.deep.equal(allProducts);
+  });
+  it('Buscando um produto que não existe no banco de dados com a query de busca', async function () {
+    sinon.stub(productsService, 'requestByQuery').resolves({ type: 0 });
+
+    const res = await chai.request(app).get('/products/search?q=de')
+
+    expect(res.status).to.be.equal(NOT_FOUND_STATUS);
+    expect(res.body).to.deep.equal([]);
   });
 });
