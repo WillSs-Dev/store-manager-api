@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const productsModel = require('../../../src/models/model.products');
 const productsService = require('../../../src/services/service.products');
-const { allProducts, newProduct, searchedProducts } = require('./service.products.mock');
+const { allProducts, newProduct, searchedProducts, updatedProduct } = require('./service.products.mock');
 
 const OK = 1;
 const ERROR = 0;
@@ -55,6 +55,22 @@ describe('Testes de unidade da service de produtos', function () {
     sinon.stub(productsModel, 'getByQuery').resolves(undefined);
 
     const result = await productsService.requestByQuery('Tangerina');
+
+    expect(result).to.deep.equal({ type: ERROR });
+  });
+  it('Atualizando o nome de um produto pela Id', async function () {
+    sinon.stub(productsModel, 'getById').resolves(allProducts[1]);
+    sinon.stub(productsModel, 'changeById').resolves(updatedProduct);
+
+    const result = await productsService.requestChangeById(2, 'Garras do Wolverine');
+
+    expect(result).to.deep.equal({ type: OK, data: updatedProduct });
+  });
+  it('Atualizando o nome de um produto que não existe', async function () {
+    sinon.stub(productsModel, 'getById').resolves(allProducts[5]);
+    sinon.stub(productsModel, 'changeById').resolves(updatedProduct);
+
+    const result = await productsService.requestChangeById(4, 'Garras do Wolverine');
 
     expect(result).to.deep.equal({ type: ERROR });
   });
