@@ -25,13 +25,26 @@ const insert = async (body, res) => {
   res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
 };
 
+const update = async (id, body, res) => {
+  const { type, data } = await salesService.requestChangeById(id, body);
+  if (type) {
+    return res.status(OK_STATUS).json(data);
+  }
+  const { productsExistsOnTheDB, saleExistsOnTheDB } = data;
+  if (!productsExistsOnTheDB) {
+    return res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
+  }
+  if (!saleExistsOnTheDB) {
+    return res.status(NOT_FOUND_STATUS).json({ message: 'Sale not found' });
+  }
+};
+
 const remove = async (id, res) => {
   const { type, data } = await salesService.requestDeleteById(id);
-  // console.log(type);
   if (type) {
     return res.status(NO_CONTENT_STATUS).json(data);
   }
   res.status(NOT_FOUND_STATUS).json({ message: 'Sale not found' });
 };
 
-module.exports = { fetchAll, fetchById, insert, remove };
+module.exports = { fetchAll, fetchById, insert, remove, update };

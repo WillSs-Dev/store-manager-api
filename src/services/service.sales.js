@@ -11,9 +11,9 @@ const requestAll = async () => {
 };
 
 const requestById = async (id) => {
-  const product = await salesModel.getById(id);
-  if (product.length) {
-    return { type: OK, data: product };
+  const products = await salesModel.getById(id);
+  if (products.length) {
+    return { type: OK, data: products };
   }
   return { type: ERROR };
 };
@@ -36,6 +36,25 @@ const create = async (body) => {
   return { type: ERROR };
 };
 
+const requestChangeById = async (id, body) => {
+  // check if sales exists
+  const sales = await salesModel.getAllSalesId();
+  const salesId = [];
+  sales.forEach((sale) => salesId.push(sale.id));
+  const saleExistsOnTheDB = salesId.includes(Number(id));
+  // check if products exists
+  const products = await productsModel.getAllProductIds();
+  const productsId = [];
+  products.forEach((product) => productsId.push(product.id));
+  const productsExistsOnTheDB = body.every((product) => productsId.includes(product.productId));
+  if (saleExistsOnTheDB && productsExistsOnTheDB) {
+    await salesProductsModel.changeById(body, id);
+    const updatedSale = { saleId: id, itemsUpdated: body };
+    return { type: OK, data: updatedSale };
+  }
+  return { type: ERROR, data: { productsExistsOnTheDB, saleExistsOnTheDB } };
+};
+
 const requestDeleteById = async (id) => {
   const product = await salesModel.getById(id);
   if (product.length) {
@@ -45,4 +64,4 @@ const requestDeleteById = async (id) => {
   return { type: ERROR };
 };
 
-module.exports = { requestAll, requestById, create, requestDeleteById };
+module.exports = { requestAll, requestById, create, requestChangeById, requestDeleteById };

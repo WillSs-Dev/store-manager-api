@@ -16,7 +16,7 @@ app.get('/', (_request, response) => {
 
 app.get('/products', (__req, res) => productsController.fetchAll(res));
 
-app.get('/products/search', ({ query: { q } }, res) => 
+app.get('/products/search', ({ query: { q } }, res) =>
   productsController.fetchByQuery(q, res));
 
 app.get('/products/:id', ({ params: { id } }, res) =>
@@ -25,10 +25,15 @@ app.get('/products/:id', ({ params: { id } }, res) =>
 app.post('/products', validateProduct, ({ body: { name } }, res) =>
   productsController.insert(name, res));
 
-app.put('/products/:id', validateProduct, ({ params: { id }, body: { name } }, res) =>
-  productsController.update(id, name, res));
+app.put(
+  '/products/:id',
+  validateProduct,
+  ({ params: { id }, body: { name } }, res) =>
+    productsController.update(id, name, res),
+);
 
-app.delete('/products/:id', ({ params: { id } }, res) => productsController.remove(id, res));
+app.delete('/products/:id', ({ params: { id } }, res) =>
+  productsController.remove(id, res));
 
 app.get('/sales', (__req, res) => salesController.fetchAll(res));
 
@@ -38,7 +43,10 @@ app.get('/sales/:id', ({ params: { id } }, res) =>
 app.post('/sales', validateSale, ({ body }, res) =>
   salesController.insert(body, res));
 
-app.delete('/sales/:id', ({ params: { id } }, res) => 
+app.put('/sales/:id', validateSale, ({ params: { id }, body }, res) =>
+  salesController.update(id, body, res));
+
+app.delete('/sales/:id', ({ params: { id } }, res) =>
   salesController.remove(id, res));
 
 // não remova essa exportação, é para o avaliador funcionar

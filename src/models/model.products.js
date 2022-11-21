@@ -46,6 +46,7 @@ const changeById = async (id, name) => {
   );
   return newProduct;
 };
+
 const deleteById = async (id) => {
   await db.query('DELETE FROM StoreManager.products WHERE id = ?', [id]);
 };
