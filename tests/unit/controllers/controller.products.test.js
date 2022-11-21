@@ -7,7 +7,7 @@ chai.use(sinonChai);
 chai.use(chaiHttp);
 
 const productsService = require('../../../src/services/service.products');
-const { allProducts, notFoundMsg, newProduct, searchedProducts } = require('./controller.products.mock');
+const { allProducts, notFoundMsg, newProduct, searchedProducts, updatedProduct } = require('./controller.products.mock');
 const app = require('../../../src/app');
 
 const OK_STATUS = 200;
@@ -85,5 +85,25 @@ describe('Testes de unidade do controller de produtos', function () {
 
     expect(res.status).to.be.equal(NOT_FOUND_STATUS);
     expect(res.body).to.deep.equal([]);
+  });
+  it('Atualizando o nome de um produto pela Id', async function () {
+    sinon.stub(productsService, 'requestChangeById').resolves({ type: 1, data: updatedProduct });
+
+    const { name } = updatedProduct;
+
+    const res = await chai.request(app).put('/products/2').send({ name });
+
+    expect(res.status).to.be.equal(OK_STATUS);
+    expect(res.body).to.deep.equal(updatedProduct);
+  });
+  it('Atualizando o nome de um produto que não existe', async function () {
+    sinon.stub(productsService, 'requestChangeById').resolves({ type: 0 });
+
+    const { name } = updatedProduct;
+
+    const res = await chai.request(app).put('/products/5').send({ name });
+
+    expect(res.status).to.be.equal(NOT_FOUND_STATUS);
+    expect(res.body).to.deep.equal(notFoundMsg);
   });
 });
