@@ -17,7 +17,7 @@ const requestByQuery = async (query) => {
   if (result) {
     return { type: OK, data: result };
   }
-  return { tyep: ERROR };
+  return { type: ERROR };
 };
 
 const requestById = async (id) => {

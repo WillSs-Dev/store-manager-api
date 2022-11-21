@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const productsModel = require('../../../src/models/model.products');
 const productsService = require('../../../src/services/service.products');
-const { allProducts, newProduct } = require('./service.products.mock');
+const { allProducts, newProduct, searchedProducts } = require('./service.products.mock');
 
 const OK = 1;
 const ERROR = 0;
@@ -36,5 +36,26 @@ describe('Testes de unidade da service de produtos', function () {
     const result = await productsService.create('Garras do Wolverine');
 
     expect(result).to.deep.equal(newProduct);
+  });
+  it('Buscando um produto por query de busca', async function () {
+    sinon.stub(productsModel, 'getByQuery').resolves(searchedProducts);
+
+    const result = await productsService.requestByQuery('de');
+
+    expect(result).to.deep.equal({ type: OK, data: searchedProducts });
+  });
+  it('Buscando um produto com a query de busca vazia', async function () {
+    sinon.stub(productsModel, 'getAll').resolves(allProducts);
+
+    const result = await productsService.requestByQuery('');
+
+    expect(result).to.deep.equal({ type: OK, data: allProducts });
+  });
+  it('Buscando um produto que não existe no banco de dados com a query de busca vazia', async function () {
+    sinon.stub(productsModel, 'getByQuery').resolves(undefined);
+
+    const result = await productsService.requestByQuery('Tangerina');
+
+    expect(result).to.deep.equal({ type: ERROR });
   });
 });

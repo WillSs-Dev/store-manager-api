@@ -7,7 +7,7 @@ const allProducts = [
 const searchedProducts = [
   {id:1,name:'Martelo de Thor'},
   {id:2,name:'Traje de encolhimento'},
-]
+];
 
 const notFoundMsg = { message: 'Product not found' };
 
