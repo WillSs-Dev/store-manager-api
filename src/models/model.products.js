@@ -40,11 +40,11 @@ const changeById = async (id, name) => {
     name,
     id,
   ]);
-  const [[newProduct]] = await db.query(
+  const [[updatedProduct]] = await db.query(
     'SELECT * FROM StoreManager.products WHERE name = ?',
     [name],
   );
-  return newProduct;
+  return updatedProduct;
 };
 
 const deleteById = async (id) => {

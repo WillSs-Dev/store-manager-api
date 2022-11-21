@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const db = require('../../../src/models/connection');
 const productsModel = require('../../../src/models/model.products');
-const { allProducts, newProduct, searchedProducts } = require('./model.products.mock');
+const { allProducts, newProduct, searchedProducts, updatedProduct } = require('./model.products.mock');
 
 describe('Testes de unidade do model de produtos', function () {
   afterEach(sinon.restore);
@@ -33,5 +33,12 @@ describe('Testes de unidade do model de produtos', function () {
     const result = await productsModel.getByQuery('de');
 
     expect(result).to.deep.equal(searchedProducts);
+  });
+  it('Atualizando o nome de um produto pela Id', async function () {
+    sinon.stub(db, 'query').resolves([[updatedProduct]]);
+
+    const result = await productsModel.changeById(2, 'Garras do Wolverine');
+
+    expect(result).to.deep.equal(updatedProduct);
   });
 });
